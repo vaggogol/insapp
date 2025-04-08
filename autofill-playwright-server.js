@@ -6,9 +6,14 @@ app.use(express.json());
 
 app.post('/autofill', async (req, res) => {
   try {
-    const browser = await chromium.connectOverCDP({
-      wsEndpoint: `wss://chrome.browserless.io?token=${process.env.BROWSERLESS_TOKEN}`
-    });
+    const token = process.env.BROWSERLESS_TOKEN;
+    const wsEndpoint = `wss://chrome.browserless.io?token=${token}`;
+
+    // 🔍 Log για debugging
+    console.log("📡 Trying to connect to:", wsEndpoint);
+    console.log("🔐 Token value:", token);
+
+    const browser = await chromium.connectOverCDP({ wsEndpoint });
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -37,12 +42,12 @@ app.post('/autofill', async (req, res) => {
 
     res.json({ success: true, url: finalUrl });
   } catch (error) {
-    console.error(error);
+    console.error("🔥 Error during /autofill:", error.message);
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
 });
