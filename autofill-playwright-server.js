@@ -39,13 +39,44 @@ app.post('/autofill', async (req, res) => {
     await page.fill('input[placeholder="ΕΕΕΕ"]', year);
     await page.keyboard.press('Enter');
 
-    await page.waitForSelector('label:has-text("B")');
-    await page.click('label:has-text("B")');
+    //await page.waitForSelector('label:has-text("B")');
+    //await page.click('label:has-text("B")');
 
-    await page.waitForSelector('input[name="licenseYears"]', { timeout: 10000 });
-    await page.fill('input[name="licenseYears"]', license_years.toString());
+    const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
+  
+    // Κλικ στο πεδίο εισαγωγής του σωστού multiselect μέσα στο div "licenseYears"
+    await licenseYearsDiv.locator('div.multiselect__input').click();
+  
+    // Ορισμός της τιμής που θέλεις να επιλέξεις (π.χ. 16)
+    const selectedValue = 16;
+    const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
+  
+    // Επιλογή του στοιχείου από τη λίστα του σωστού multiselect
+    await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
 
-    await page.fill('input[name="zip"]', zip);
+    //await page.waitForSelector('input[name="licenseYears"]', { timeout: 10000 });
+    //await page.fill('input[name="licenseYears"]', license_years.toString());
+
+    //await page.fill('input[name="zip"]', zip);
+
+    // Στοχεύουμε το div με το data-field="postalCode"
+    const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
+  
+    // Κλικ στο πεδίο εισαγωγής του σωστού multiselect μέσα στο div "postalCode"
+    await postalCodeDiv.locator('div.multiselect__input').click();
+  
+    // Ορισμός της τιμής που θέλεις να επιλέξεις (π.χ. 10544)
+    const selectedPostalCode = zip;
+  
+    // Δημιουργία του πλήρους κειμένου της επιλογής που θέλεις να βρεις
+    // Αν το "10544" εμφανίζεται με κείμενο όπως "10554 Αθηνα Αθηνα", το 10544 θα αναζητηθεί σε κάθε επιλογή που περιέχει αυτό τον αριθμό.
+    const optionText = `${selectedPostalCode}`;  // Εδώ απλά αναζητούμε τον αριθμό, αν δεν θέλεις άλλο κείμενο.
+  
+    // Επιλογή του στοιχείου από τη λίστα του σωστού multiselect που περιλαμβάνει το 10544 στο κείμενο
+    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
+  
+
+    
     await page.click('button:has-text("Σύγκριση προσφορών")');
 
     await page.waitForNavigation({ waitUntil: 'networkidle' });
