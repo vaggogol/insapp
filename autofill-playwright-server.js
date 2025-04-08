@@ -10,7 +10,12 @@ app.post('/autofill', async (req, res) => {
     const wsEndpoint = `wss://chrome.browserless.io?token=${token}`;
 
     const { email, plate, birthdate, license_years, zip } = req.body;
-
+    console.log('email:', email);
+    console.log('plate:', plate);
+    console.log('birthdate:', birthdate);
+    console.log('license_years:', license_years);
+    console.log('zip:', zip);
+    
     // ✅ Έλεγχος ότι όλα τα πεδία υπάρχουν
     if (!email || !plate || !birthdate || !license_years || !zip) {
       return res.status(400).json({ success: false, error: 'Missing required fields' });
