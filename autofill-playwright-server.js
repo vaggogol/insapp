@@ -59,10 +59,6 @@ app.post('/autofill', async (req, res) => {
     // Επιλογή του στοιχείου από τη λίστα του σωστού multiselect
     await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
 
-    //await page.waitForSelector('input[name="licenseYears"]', { timeout: 10000 });
-    //await page.fill('input[name="licenseYears"]', license_years.toString());
-
-    //await page.fill('input[name="zip"]', zip);
 
     // Στοχεύουμε το div με το data-field="postalCode"
     const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
