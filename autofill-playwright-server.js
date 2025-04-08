@@ -70,10 +70,10 @@ app.post('/autofill', async (req, res) => {
   
     // Δημιουργία του πλήρους κειμένου της επιλογής που θέλεις να βρεις
     // Αν το "10544" εμφανίζεται με κείμενο όπως "10554 Αθηνα Αθηνα", το 10544 θα αναζητηθεί σε κάθε επιλογή που περιέχει αυτό τον αριθμό.
-    const optionText = `${selectedPostalCode}`;  // Εδώ απλά αναζητούμε τον αριθμό, αν δεν θέλεις άλλο κείμενο.
+    const optionText2 = `${selectedPostalCode}`;  // Εδώ απλά αναζητούμε τον αριθμό, αν δεν θέλεις άλλο κείμενο.
   
     // Επιλογή του στοιχείου από τη λίστα του σωστού multiselect που περιλαμβάνει το 10544 στο κείμενο
-    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
+    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText2}`).click();
   
 
     
