@@ -1,5 +1,5 @@
 {
-  "name": "insurance-autofill",
+  "name": "insapp",
   "version": "1.0.0",
   "main": "autofill-playwright-server.js",
   "scripts": {
