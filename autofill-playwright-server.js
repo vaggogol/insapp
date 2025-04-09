@@ -10,12 +10,12 @@ app.use(express.json());
 
 app.post('/autofill', async (req, res) => {
   // Using the env variable name provided in the Browserless snippet:
-  const token = process.env.BROWSERLESS_TEST_TOKEN;
+  const token = process.env.BROWSERLESS_TOKEN;
   // Recommended endpoint for v2:
   const BROWSERLESS_ENDPOINT = 'wss://production-sfo.browserless.io';
 
   if (!token) {
-    return res.status(500).json({ success: false, error: 'Missing BROWSERLESS_TEST_TOKEN' });
+    return res.status(500).json({ success: false, error: 'Missing BROWSERLESS_TOKEN' });
   }
 
   const { email, plate, birthdate, license_years, zip } = req.body;
