@@ -20,7 +20,7 @@ app.post('/autofill', async (req, res) => {
 
   const { email, plate, birthdate, license_years, zip } = req.body;
   console.log('✅ Received payload:', req.body);
-  console.log( Received token:',token);
+  console.log('Received token:',token);
   if (!email || !plate || !birthdate || !license_years || !zip) {
     return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
