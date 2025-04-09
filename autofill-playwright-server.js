@@ -2,8 +2,7 @@ import express from 'express';
 import { chromium } from 'playwright';
 import { config } from 'dotenv';
 
-// Διαβάζει από .env.local (ή .env)
-config({ path: '.env.local' });
+config();
 
 const app = express();
 app.use(express.json());
