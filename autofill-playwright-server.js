@@ -1,15 +1,15 @@
-import express from 'express';
-import { chromium } from 'playwright';
-import { config } from 'dotenv';
+const express = require('express');
+const { chromium } = require('playwright');
+const dotenv = require('dotenv');
 
-config();
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
 app.post('/autofill', async (req, res) => {
   const token = process.env.BROWSERLESS_TOKEN;
-  const BROWSERLESS_ENDPOINT = 'wss://chrome.browserless.io'; // ή production-sfo αν θέλεις
+  const BROWSERLESS_ENDPOINT = 'wss://chrome.browserless.io';
 
   if (!token) {
     return res.status(500).json({ success: false, error: 'Missing BROWSERLESS_TOKEN' });
