@@ -1,6 +1,7 @@
 {
   "name": "insapp",
   "version": "1.0.0",
+  "type": "module",
   "main": "autofill-playwright-server.js",
   "scripts": {
     "start": "node autofill-playwright-server.js"
