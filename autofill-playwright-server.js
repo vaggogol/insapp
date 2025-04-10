@@ -50,13 +50,13 @@ app.post('/autofill', async (req, res) => {
 
     // Handle the license years multiselect
     const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
-    await licenseYearsDiv.locator('div.multiselect__input').click();
+    await licenseYearsDiv.locator('div.multiselect__select').click();
     const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
     await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
 
     // Handle the postal code multiselect
     const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
-    await postalCodeDiv.locator('div.multiselect__input').click();
+    await postalCodeDiv.locator('div.multiselect__select').click();
     await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click();
 
     // Submit the form and wait for navigation after clicking the button
