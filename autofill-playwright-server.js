@@ -32,7 +32,7 @@ app.post('/autofill', async (req, res) => {
     console.log('📡 Connecting to Browserless.io via CDP...');
     const proxy = '91.236.74.10:8080';
 
-    const browserlessUrl = `${BROWSERLESS_ENDPOINT}?token=${token}&--proxy-server=${proxy}`;
+    const browserlessUrl = `${BROWSERLESS_ENDPOINT}?token${token}&--proxy-server=${proxy}`;
     //const browserlessUrl = `${BROWSERLESS_ENDPOINT}?token=${token}`;
     browser = await playwright.chromium.connectOverCDP(browserlessUrl);
     
