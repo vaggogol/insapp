@@ -20,12 +20,10 @@ app.post('/autofill', async (req, res) => {
 
   const { email, plate, birthdate, license_years, zip } = req.body;
   console.log('✅ Received payload:', req.body);
-  if (token.startsWith('=')) {
-    token = token.slice(1);
-  }
+
   console.log('Received token:',token);
-  token = token.replace(/=$/, '');
-  console.log('Sanitized token:', token);
+  let sttoken = token.replace(/=$/, '');
+  console.log('Sanitized token:', sttoken);
   if (!email || !plate || !birthdate || !license_years || !zip) {
     return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
@@ -33,7 +31,7 @@ app.post('/autofill', async (req, res) => {
   let browser=null;
   try {
     console.log('📡 Connecting to Browserless.io via CDP...');
-    const browserlessUrl = `${BROWSERLESS_ENDPOINT}?token=${token}`;
+    const browserlessUrl = `${BROWSERLESS_ENDPOINT}?token=${sttoken}`;
     browser = await playwright.chromium.connectOverCDP(browserlessUrl);
     
     const context = await browser.newContext();
