@@ -55,16 +55,31 @@ await page.locator('id=CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll').c
     await page.fill('input[placeholder="ΕΕΕΕ"]', year);
     await page.keyboard.press('Enter');
  
-    // Handle the license years multiselect
-    const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
-    await licenseYearsDiv.locator('div.multiselect__select').click();
-    const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
-    await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click({ force: true });
- 
-    // Handle the postal code multiselect
-    const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
-    await postalCodeDiv.locator('div.multiselect__select').click();
-    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click({ force: true });
+// Helper: wait for modal to disappear if present
+const modal = page.locator('.vehicle-selection.modal.fade.show');
+if (await modal.isVisible()) {
+  console.log('Modal is visible — waiting for it to disappear...');
+  await modal.waitFor({ state: 'hidden', timeout: 10000 });
+}
+
+// Handle the license years multiselect
+const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
+await licenseYearsDiv.locator('div.multiselect__select').click();
+
+const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
+await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click({ force: true });
+
+// Handle the postal code multiselect
+// Re-check if modal shows again before the next action
+if (await modal.isVisible()) {
+  console.log('Modal re-appeared — waiting again...');
+  await modal.waitFor({ state: 'hidden', timeout: 10000 });
+}
+
+const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
+await postalCodeDiv.locator('div.multiselect__select').click();
+
+await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click({ force: true });
  
     // Submit the form and wait for navigation after clicking the button
     await page.click('button:has-text("Σύγκριση προσφορών")');
