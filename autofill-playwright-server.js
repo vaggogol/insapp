@@ -59,12 +59,12 @@ await page.locator('id=CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll').c
     const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
     await licenseYearsDiv.locator('div.multiselect__select').click();
     const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
-    await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
+    await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click({ force: true });
  
     // Handle the postal code multiselect
     const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
     await postalCodeDiv.locator('div.multiselect__select').click();
-    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click();
+    await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click({ force: true });
  
     // Submit the form and wait for navigation after clicking the button
     await page.click('button:has-text("Σύγκριση προσφορών")');
