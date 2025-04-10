@@ -40,35 +40,37 @@ app.post('/autofill', async (req, res) => {
     // Navigate to InsuranceMarket form
     await page.goto('https://www.insurancemarket.gr/form/car', { waitUntil: 'networkidle' });
 
+await page.locator('id=CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll').click();
+ 
     // Fill in the form based on provided data
     await page.fill('input[placeholder="ΧΧΧ1688"]', plate);
     await page.click('button:has-text("Αναζήτηση Οχήματος")');
     await page.waitForTimeout(5000);
-
+ 
     // Parse birthdate string (expected as "day/month/year")
     const [day, month, year] = birthdate.split('/');
-
+ 
     await page.fill('input[placeholder="ΗΗ"]', day);
     await page.fill('input[placeholder="ΜΜ"]', month);
     await page.fill('input[placeholder="ΕΕΕΕ"]', year);
     await page.keyboard.press('Enter');
-
+ 
     // Handle the license years multiselect
     const licenseYearsDiv = await page.locator('div[data-field="licenseYears"]');
     await licenseYearsDiv.locator('div.multiselect__select').click();
     const optionText = `Από ${license_years} έως ${license_years + 1} έτη`;
     await licenseYearsDiv.locator(`li.multiselect__element span.multiselect__option >> text=${optionText}`).click();
-
+ 
     // Handle the postal code multiselect
     const postalCodeDiv = await page.locator('div[data-field="postalCode"]');
     await postalCodeDiv.locator('div.multiselect__select').click();
     await postalCodeDiv.locator(`li.multiselect__element span.multiselect__option >> text=${zip}`).click();
-
+ 
     // Submit the form and wait for navigation after clicking the button
     await page.click('button:has-text("Σύγκριση προσφορών")');
-    await page.waitForNavigation({ waitUntil: 'networkidle' });
-    const finalUrl = page.url();
-
+    await page.waitForNavigation()
+    const finalUrl = await page.evaluate(() => document.location.href);
+ 
     res.json({ success: true, url: finalUrl });
   } catch (error) {
     console.error('🔥 Autofill error:', error);
