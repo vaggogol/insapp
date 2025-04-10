@@ -24,6 +24,8 @@ app.post('/autofill', async (req, res) => {
     token = token.slice(1);
   }
   console.log('Received token:',token);
+  token = token.replace(/=$/, '');
+  console.log('Sanitized token:', token);
   if (!email || !plate || !birthdate || !license_years || !zip) {
     return res.status(400).json({ success: false, error: 'Missing required fields' });
   }
